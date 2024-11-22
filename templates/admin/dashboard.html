@@ -1,0 +1,163 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4 text-center">Admin Dashboard</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- User Statistics Cards -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <i class="fas fa-users fa-3x"></i>
+                        <h2 class="card-text">{{ totalUser }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Approved Users</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <i class="fas fa-user-check fa-3x"></i>
+                        <h2 class="card-text">{{ totalApprove }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Unapproved Users</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <i class="fas fa-user-times fa-3x"></i>
+                        <h2 class="card-text">{{ notTotalApprove }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Financial Insights -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Total Revenue</h5>
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center">${{ "{:,.2f}".format(total_revenue) }}</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Late Fees Collected</h5>
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center">${{ "{:,.2f}".format(late_fees_analysis) }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Car Category Revenue -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Revenue by Car Category</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, revenue in car_category_revenue %}
+                            <tr>
+                                <td>{{ category }}</td>
+                                <td>${{ "{:,.2f}".format(revenue) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Booking Status -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Booking Status</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for status, count in booking_status_analysis %}
+                            <tr>
+                                <td>{{ status }}</td>
+                                <td>{{ count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 mb-4">
+            <a href="{{ url_for('main.adminBookings') }}" class="btn btn-primary btn-lg btn-block">
+                View Active Bookings
+            </a>
+        </div>
+
+        <div class="col-12 mb-4">
+            <a href="{{ url_for('main.adminLogout') }}" class="btn btn-danger btn-lg btn-block">
+                Logout
+            </a>
+        </div>     
+           
+    </div>
+</div>
+
+<!-- Add this to your layout.html or in a separate section -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+    .card {
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+</style>
+
+{% endblock content %}

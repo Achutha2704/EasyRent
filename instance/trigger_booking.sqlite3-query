@@ -1,0 +1,25 @@
+-- database: ./dbms_se.db
+
+CREATE TRIGGER handle_booking
+AFTER INSERT ON booking_details
+FOR EACH ROW
+BEGIN
+    -- Calculate base rental amount
+    UPDATE booking_details 
+    SET amount = (
+        (JULIANDAY(NEW.ret_dt_time) - JULIANDAY(NEW.from_dt_time) + 1) * 
+        (SELECT cost_per_day 
+         FROM car_category 
+         WHERE category_name = (
+             SELECT car_category_name 
+             FROM car 
+             WHERE registration_number = NEW.reg_num
+         ))
+    )
+    WHERE booking_id = NEW.booking_id;
+
+    -- Mark the booked car as unavailable
+    UPDATE car 
+    SET availability_flag = 'N'
+    WHERE registration_number = NEW.reg_num;
+END;

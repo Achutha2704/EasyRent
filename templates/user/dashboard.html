@@ -1,0 +1,88 @@
+{% extends "user/layout.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h1 class="display-4 text-primary">Welcome to EasyRent</h1>
+            <p class="lead">Find the perfect vehicle for your journey in just a few clicks.</p>
+        </div>
+    </div>
+
+    <!-- Interactive Dashboard Area -->
+    <div class="row">
+        <!-- Left Column: Map -->
+        <div class="col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5>Find Nearby Locations</h5>
+                </div>
+                <div class="card-body">
+                    <img src="https://via.placeholder.com/500x300?text=Interactive+Map" alt="Map Placeholder" class="img-fluid rounded">
+                    <p class="mt-2 text-muted">Explore rental locations near you using our interactive map.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Vehicles -->
+        <div class="col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h5>Our Fleet</h5>
+                </div>
+                <div class="card-body">
+                    <div id="vehicleCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://via.placeholder.com/500x300?text=Car+1" alt="Car 1" class="d-block w-100 rounded">
+                                <div class="carousel-caption">
+                                    <h5>Sedan</h5>
+                                    <p>Perfect for city rides.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://via.placeholder.com/500x300?text=Car+2" alt="Car 2" class="d-block w-100 rounded">
+                                <div class="carousel-caption">
+                                    <h5>SUV</h5>
+                                    <p>Great for family adventures.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://via.placeholder.com/500x300?text=Car+3" alt="Car 3" class="d-block w-100 rounded">
+                                <div class="carousel-caption">
+                                    <h5>Luxury</h5>
+                                    <p>Travel in style and comfort.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#vehicleCarousel" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#vehicleCarousel" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="row mt-5">
+        <div class="col">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h5>About Us</h5>
+                </div>
+                <div class="card-body">
+                    <p>At EasyRent, we aim to simplify vehicle rentals for everyone. Whether you're planning a road trip, a weekend getaway, or just need a car for a day, we have you covered.</p>
+                    <img src="https://via.placeholder.com/800x400?text=About+Us" alt="About Us" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,76 @@
+{% extends "user/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-3">User Registration</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                <strong>{{ message }}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="POST">
+                        <div class="my-2">
+                            <label for="dl_number"><b>Enter Your Driver's License Number</b></label>
+                            <input type="text" name="dl_number" id="dl_number" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="fname"><b>Enter Your First Name</b></label>
+                            <input type="text" name="fname" id="fname" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="mname"><b>Enter Your Middle Name</b></label>
+                            <input type="text" name="mname" id="mname" class="form-control my-1">
+                        </div>
+                        <div class="my-2">
+                            <label for="lname"><b>Enter Your Last Name</b></label>
+                            <input type="text" name="lname" id="lname" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="phone_number"><b>Enter Your Phone Number</b></label>
+                            <input type="text" name="phone_number" id="phone_number" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="email_id"><b>Enter Your Email</b></label>
+                            <input type="email" name="email_id" id="email_id" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="username"><b>Enter Your Username</b></label>
+                            <input type="text" name="username" id="username" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="password"><b>Enter Your Password</b></label>
+                            <input type="password" name="password" id="password" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="street"><b>Enter Your Street</b></label>
+                            <input type="text" name="street" id="street" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="city"><b>Enter Your City</b></label>
+                            <input type="text" name="city" id="city" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="state_name"><b>Enter Your State</b></label>
+                            <input type="text" name="state_name" id="state_name" class="form-control my-1" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="zipcode"><b>Enter Your Zip Code</b></label>
+                            <input type="text" name="zipcode" id="zipcode" class="form-control my-1" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Signup</button>
+                        <span class="d-flex align-items-center">Already have an account? <a href="/user/" class="text-center nav-link">Login</a></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% extends "user/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h4 class="text-center my-3">Select Drop-off Location</h4>
+    <div class="row">
+        {% for location in locations %}
+        <div class="col-md-4 my-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5><a href="{{ url_for('main.viewCars', pickup_location_id=pickup_location_id, dropoff_location_id=location.location_id) }}">
+                        {{ location.location_name }}
+                    </a></h5>
+                    <p>{{ location.street }}, {{ location.city }}, {{ location.state_name }} - {{ location.zipcode }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

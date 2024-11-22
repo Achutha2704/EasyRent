@@ -1,0 +1,10 @@
+-- database: ./dbms_se.db
+
+CREATE TRIGGER handle_car_return
+AFTER UPDATE OF booking_status ON booking_details
+WHEN NEW.booking_status = 'R'
+BEGIN
+    UPDATE car 
+    SET availability_flag = 'A'
+    WHERE registration_number = NEW.reg_num;
+END;

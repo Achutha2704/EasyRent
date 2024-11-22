@@ -1,0 +1,40 @@
+## To be done
+
+-> Add the book button to each cards in the filtered locations
+-> In the bookings page that this button directs you to fill up the table booking details while keeping act_date_time null
+-> Create a new return button in the sidebar
+-> Implement the update table trigger.
+
+{% extends 'admin/layout.html' %}
+{% block content %}
+<div class="container">
+    {% include 'admin/navbar.html' %}
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 my-2 col-lg-6 col-sm-12">
+            <div class="bg-success d-flex p-3 justify-content-between align-items-center">
+                <h2>Total User</h2>
+                <h4>{{totalUser}}</h4>
+            </div>
+        </div>
+        <div class="col-xl-6 my-2 col-lg-6 col-sm-12">
+            <div class="bg-warning d-flex p-3 justify-content-between align-items-center">
+                <h2>Approved User</h2>
+                <h4>{{totalApprove}}</h4>
+            </div>
+        </div>
+        <div class="col-xl-6 my-2 col-lg-6 col-sm-12">
+            <div class="bg-primary d-flex p-3 justify-content-between align-items-center">
+                <h2>DisApprove User</h2>
+                <h4>{{NotTotalApprove}}</h4> 
+            </div>
+        </div>
+        <div class="col-xl-6 my-2 col-lg-6 col-sm-12">
+            <a href="{{ url_for('main.adminBookings') }}" class="btn btn-info btn-lg btn-block">
+                <h2>View Active Bookings</h2>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

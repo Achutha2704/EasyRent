@@ -1,0 +1,77 @@
+{% extends "user/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h4 class="text-center my-3 text-primary">Payment Details</h4>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-4">Bill Breakdown</h5>
+
+                    <div class="mb-3">
+                        <h6>Car Details</h6>
+                        <p>
+                            <strong>Model:</strong> {{ bill_details.car_details.make }} {{ bill_details.car_details.model }}<br>
+                            <strong>Registration:</strong> {{ bill_details.car_details.registration }}<br>
+                            <strong>Category:</strong> {{ bill_details.car_details.category }}
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Rental Dates</h6>
+                        <p>
+                            <strong>Pickup:</strong> {{ bill_details.booking_dates.pickup.strftime('%Y-%m-%d %H:%M') }}<br>
+                            <strong>Expected Return:</strong> {{ bill_details.booking_dates.expected_return.strftime('%Y-%m-%d %H:%M') }}<br>
+                            <strong>Actual Return:</strong> {{ bill_details.booking_dates.actual_return.strftime('%Y-%m-%d %H:%M') }}
+                        </p>
+                    </div>
+
+                    <table class="table">
+                        <tr>
+                            <td>Base Rental Amount</td>
+                            <td class="text-end">${{ bill_details.base_amount|round(2) }}</td>
+                        </tr>
+
+                        {% if bill_details.insurance_details %}
+                        <tr>
+                            <td>Insurance ({{ bill_details.insurance_details.name }})</td>
+                            <td class="text-end">${{ bill_details.insurance_details.cost|round(2) }}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if bill_details.discount_details %}
+                        <tr>
+                            <td>Discount ({{ bill_details.discount_details.name }})</td>
+                            <td class="text-end">-${{ (bill_details.discount_details.percentage / 100 * bill_details.base_amount)|round(2) }}</td>
+                        </tr>
+                        {% endif %}
+
+                        <tr>
+                            <td>Tax</td>
+                            <td class="text-end">${{ bill_details.tax_amount|round(2) }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Late Fee</td>
+                            <td class="text-end">${{ bill_details.late_fee|round(2) }}</td>
+                        </tr>
+
+                        <tr class="table-active">
+                            <td><strong>Total Amount</strong></td>
+                            <td class="text-end"><strong>${{ bill_details.total_amount|round(2) }}</strong></td>
+                        </tr>
+                    </table>
+
+                    <form method="POST">
+                        <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Confirm payment?');">
+                            Pay Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

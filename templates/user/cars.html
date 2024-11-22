@@ -1,0 +1,159 @@
+{% extends "user/layout.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 col-md-4 bg-light p-3">
+            <h5 class="mb-3">Refine Your Search</h5>
+            
+            <!-- Category Filter -->
+            <div class="mb-4">
+                <h6>Car Category</h6>
+                <form method="get" action="{{ url_for('main.viewCars', pickup_location_id=pickup_location.location_id, dropoff_location_id=dropoff_location.location_id) }}">
+                    <select name="category" class="form-select" onchange="this.form.submit()">
+                        <option value="all" {% if selected_category == "all" %}selected{% endif %}>All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.category_name }}" {% if selected_category == category.category_name %}selected{% endif %}>
+                            {{ category.category_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <!-- Rental Details Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    Rental Details
+                </div>
+                <div class="card-body">
+                    <p><strong>Pickup:</strong> {{ pickup_location.location_name }}</p>
+                    <p><strong>Dropoff:</strong> {{ dropoff_location.location_name }}</p>
+                </div>
+            </div>
+
+            <!-- Available Discounts -->
+            {% if valid_discounts %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    Active Discounts
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for discount in valid_discounts %}
+                    <li class="list-group-item">
+                        {{ discount.discount_name }}
+                        <span class="badge bg-success">{{ discount.discount_percentage }}% off</span>
+                        <small class="text-muted d-block">Expires: {{ discount.expiry_date.strftime('%d %b %Y') }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Car Listings -->
+        <div class="col-lg-9 col-md-8">
+            <h4 class="text-center my-3 text-primary">
+                Available Cars
+            </h4>
+
+            <div class="row">
+                {% for car in cars %}
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ car.model_name }} - {{ car.make }}</h5>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Year</small>
+                                    <p class="mb-0">{{ car.model_year }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Mileage</small>
+                                    <p class="mb-0">{{ car.mileage }} km</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Category</small>
+                                    <p class="mb-0">{{ car.car_category_name }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Daily Rate</small>
+                                    <p class="mb-0 text-success">${{ cat_map[car.car_category_name] }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Booking Modal Trigger -->
+                            <button class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal{{ car.registration_number }}">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Modal -->
+                <div class="modal fade" id="bookingModal{{ car.registration_number }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Book {{ car.model_name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form method="POST" action="{{ url_for('main.viewCars', pickup_location_id=pickup_location.location_id, dropoff_location_id=dropoff_location.location_id) }}">
+                                <div class="modal-body">
+                                    <input type="hidden" name="registration_number" value="{{ car.registration_number }}">
+                                    <input type="hidden" name="dl_number" value="{{ customer_dl }}">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Pickup Date & Time</label>
+                                            <input type="datetime-local" name="pickup_datetime" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Return Date & Time</label>
+                                            <input type="datetime-local" name="return_datetime" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Insurance Selection -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Insurance Policy (Optional)</label>
+                                        <select name="insurance_code" class="form-select">
+                                            <option value="">No Insurance</option>
+                                            {% for policy in insurance_policies %}
+                                            <option value="{{ policy.insurance_code }}">
+                                                {{ policy.insurance_name }} - ${{ policy.cost_per_day }}/day ({{ policy.coverage_type }})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Discount Selection -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Discount Code (Optional)</label>
+                                        <select name="discount_code" class="form-select">
+                                            <option value="">No Discount</option>
+                                            {% for discount in valid_discounts %}
+                                            <option value="{{ discount.discount_code }}">
+                                                {{ discount.discount_name }} ({{ discount.discount_percentage }}% off)
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
